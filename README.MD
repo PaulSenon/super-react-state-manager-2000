@@ -40,3 +40,7 @@ So you'll just have to copy the `srsm2000.js` somewhere, and import it (look at 
 # Contribute
 
 If you want. Not sure it's useful, but I'll be happy :)
+
+# Known Issues
+
+* memory leaks, updating unmounted components. => I'll work on a fix
