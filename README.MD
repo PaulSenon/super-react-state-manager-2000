@@ -4,7 +4,7 @@ It's a shitty custom made redux clone, created without looking at how redux work
 
 # Why ??
 
-It was just messing around with React on some tiny PoCs, and I didn't wanted to use redux just to dipatch an 'addToAList' action...  
+I was just messing around with React on some tiny PoCs, and I didn't wanted to use redux just to dipatch an 'addToAList' action...  
 I've also done this a bit for the chellenge of course :D 
 
 # How it Works ?
