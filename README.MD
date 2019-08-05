@@ -22,6 +22,9 @@ Yes, but, I promise you don't want to :
 * Probably not efficient/optimized *(I would not try to add a lot of reducers and a lot of different components binded to states.)*
 * I don't always know what I'm doing x), There is so much nested methods/class/functions, I have no Idea how it works, but it kinda... I use the good old secret method called *"ChangeThingsRandomlyAndPressF5TillThereIsNoMoreErrorInTheConsole"*. My favorite <3.
 
+But there is maybe one pros :
+* It weighs approxymately the same weight of this readme :)
+
 # But I don't care, I want to use it anyway !
 
 OK... That's up to you :|  
