@@ -13,7 +13,10 @@ I've also done this a bit for the chellenge of course :D
 * You can dispatch **actions**, that use **reducers** to change **state** values. Same syntax.
 * You can link global state values to one component private state, so it's updated automatically when this global linked state change (because of a dispatched action).  
 
-> For more details, just look at the example code, where 2 super basic components just communicate via the state manager.
+> For more details, just look at the example code, where 2 super basic components just communicate via the state manager.  
+
+
+> **EDIT**: I added a sample project using this lib, not so clean, but you can play with it within your browser :D : https://stackblitz.com/edit/react-eeqtxm?file=index.js
 
 # Can I use it ?
 
