@@ -1,52 +1,62 @@
+const UID_KEY = "__state_manager_uid__";
+
 static class StateManager {
 
-    static components = [];
+    static components = {};
     static __globalStates = {};
     static __globalReducers = {};
-  
+    static idGeneratorIndex = 0;
+
     constructor(reducers){
         StateManager.__globalReducers = reducers;
         Object.keys(reducers).forEach(key => {
-            StateManager.__globalStates[key] = reducers[key](undefined, {type : "__init"});
+        StateManager.__globalStates[key] = reducers[key](undefined, {type : "__init"});
         });
-        console.log("State", StateManager.__globalStates);
-        console.log("Reducer", StateManager.__globalReducers);
+        // console.log("State", StateManager.__globalStates);
+        // console.log("Reducer", StateManager.__globalReducers);
     }
-  
+
     static registerComponentState(component, stateToStateMapper){
+
         const additionaleState = stateToStateMapper(StateManager.__globalStates);
+
         if(StateManager.isUseless(additionaleState)) return;
-        // console.log('StateManager: new Component :', additionaleState);
-        component.state = ({...component.state, ...additionaleState});
-        StateManager.components.push({
+        const id = StateManager.generateId();
+        component.state = ({...component.state, ...additionaleState, [UID_KEY]: id});
+        StateManager.components[id] = {
             component,
             stateToStateMapper, 
-        });
+        };
     }
-  
+
+    static unRegisterComponentState(component){
+        delete StateManager.components[component.state[UID_KEY]];
+    }
+
     static registerComponentDispatch(component, dispatchToStateMapper){
         const dispatchers = dispatchToStateMapper(StateManager.dispatcher);
         component.state = ({...component.state, ...dispatchers});
     }
-  
+
     static setState(){
-        // console.log("new global state", __globalStates);
-        StateManager.components.forEach(e => {
+        Object.keys(StateManager.components).forEach(id => {
+            const e = StateManager.components[id];
             if(!e.stateToStateMapper)return;
             const mappedState = e.stateToStateMapper(StateManager.__globalStates);
-            StateManager.hasChanged(e.component.state, mappedState) && !StateManager.isUseless(mappedState) && e.component.setState(mappedState);
+            StateManager.hasChanged(e.component.state, mappedState) 
+                && !StateManager.isUseless(mappedState) 
+                && e.component.setState(mappedState);
         });
     }
-  
+
     static isUseless(additionalState){
         let res = true;
         Object.keys(additionalState).forEach(key => {
             if(additionalState[key] !== undefined){return res = false}
         });
-        // res ? console.log('useless') : console.log("usefull");
         return res;
     }
-  
+
     static hasChanged(oldState, newMappedState){
         let res = false;
         Object.keys(newMappedState).forEach(key => {
@@ -54,7 +64,7 @@ static class StateManager {
         });
         return res;
     }
-  
+
     static dispatcher = (input) => {
         input(action => {
             Object.keys(StateManager.__globalStates).forEach(key => {
@@ -63,8 +73,12 @@ static class StateManager {
             StateManager.setState();
         });
     };
+
+    static generateId = () => {
+        return StateManager.idGeneratorIndex++;
+    } 
 }
-  
+
 const connect = (mapStateToProps, mapDispatchToProps)=> {
     // create a new component
     return (Component) => {
@@ -73,6 +87,11 @@ const connect = (mapStateToProps, mapDispatchToProps)=> {
                 super(props);
                 !!mapStateToProps && StateManager.registerComponentState(this, mapStateToProps);
                 !!mapDispatchToProps && StateManager.registerComponentDispatch(this, mapDispatchToProps);
+            }
+
+            componentWillUnmount(){
+                !!super.componentWillUnmount && super.componentWillUnmount();
+                StateManager.unRegisterComponentState(this);
             }
         }
     };

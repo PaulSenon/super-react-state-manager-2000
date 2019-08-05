@@ -16,7 +16,7 @@ I've also done this a bit for the chellenge of course :D
 > For more details, just look at the example code, where 2 super basic components just communicate via the state manager.  
 
 
-> **EDIT**: I added a sample project using this lib, not so clean, but you can play with it within your browser :D : https://stackblitz.com/edit/react-eeqtxm?file=index.js
+> **EDIT 1.0.1**: I added a sample project using this lib, not so clean, but you can play with it within your browser :D : https://stackblitz.com/edit/custom-redux-private-x3a12d
 
 # Can I use it ?
 
@@ -43,4 +43,4 @@ If you want. Not sure it's useful, but I'll be happy :)
 
 # Known Issues
 
-* memory leaks, updating unmounted components. => I'll work on a fix
+* ~~memory leaks, updating unmounted components. => I'll work on a fix~~ **FIXED v1.0.1**
